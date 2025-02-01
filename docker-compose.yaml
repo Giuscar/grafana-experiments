@@ -1,34 +1,44 @@
-version: "3"
+version: '3.1'
 
 networks:
-  grafana:
+  my_network:  # Define a custom network name
+    driver: bridge
 
 services:
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - "27017:27017"  # Expose MongoDB for local connections
+    networks:
+      - my_network
+
   grafana:
-    image: grafana/grafana:7.3.2
+    image: grafana/grafana-enterprise
+    container_name: grafana
+    restart: unless-stopped
     ports:
       - "3000:3000"
-    depends_on:
-      - db
+    volumes:
+      - grafana-storage:/var/lib/grafana
     environment:
-      GF_SECURITY_ADMIN_USER: admin_user
-      GF_SECURITY_ADMIN_PASSWORD: admin_password
-      GF_DATABASE_TYPE: mysql
-      GF_DATABASE_HOST: db:3306
-      GF_DATABASE_NAME: grafana_db
-      GF_DATABASE_USER: grafana_db_user
-      GF_DATABASE_PASSWORD: grafana_password
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
     networks:
-      grafana:
+      - my_network
 
-  db:
-    image: mysql:5.7
-    environment:
-      MYSQL_ROOT_PASSWORD: grafana_password
-      MYSQL_USER: grafana_db_user
-      MYSQL_PASSWORD: grafana_password
-      MYSQL_DATABASE: grafana_db
+  service_metrics:
+    build: .
+    container_name: aiohttp-service-metric
     ports:
-      - "3306:3306"
+      - "8080:8080"
     networks:
-      grafana:
+      - my_network
+
+volumes:
+  grafana-storage: {}
