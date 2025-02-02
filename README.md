@@ -21,11 +21,13 @@ Ensure you have the following installed:
 ## Setup Instructions
 
 1. **Clone the Repository**:
+   
    ```bash
    git clone https://github.com/Giuscar/grafana-experiments.git
    cd grafana-experiments
 
 2. **Build and Start the Docker Containers**:
+
     ```docker
    docker-compose start --build
     ```
