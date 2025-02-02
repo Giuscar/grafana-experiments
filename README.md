@@ -29,16 +29,14 @@ Ensure you have the following installed:
     ```docker
    docker-compose start --build
     ```
-   This command will build and start the services defined in the docker-compose.yaml
-3. **Access Grafana**:
-    Once the containers are up and running, navigate to http://127.0.0.1:3000 in your browser to access the Grafana dashboard. 
+    This command will build and start the services defined in the docker-compose.yaml
+3. **Access Grafana**: Once the containers are up and running, navigate to http://127.0.0.1:3000 in your browser to access the Grafana dashboard. 
 
 ## Python Web Server
-The **web_server.py** script is designed to expose API that will be used by Grafana to retrieve data and show them on a dashboard.
-To run the script: 
-    ```bash
-    python3 web_server.py
-    ```
+The **web_server.py** script is designed to expose API that will be used by Grafana to retrieve data and show them on a dashboard. To run the script: 
+```bash
+python3 web_server.py
+```
 
 ## Custom Metrics
 The **metrics.json** is an example of custom metrics that can be used to show graphs on Grafana.
