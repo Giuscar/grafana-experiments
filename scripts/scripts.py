@@ -11,6 +11,8 @@ def generate_random_metrics():
             occurrence = {
                 "scenario": f"scenario_{i}_{hw_type}",
                 "cpu_consumption": round(random.uniform(0.1, 99.9), 2),
+                "cpu_mean": round(random.uniform(0.1, 99.9), 2),
+                "cpu_calculator": round(random.uniform(0.1, 99.9), 2),
                 "memory_consumption": round(random.uniform(0.1, 99.9), 2),
                 "hw_type": hw_type,
             }
