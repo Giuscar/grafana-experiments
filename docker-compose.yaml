@@ -1,11 +1,11 @@
 version: '3.1'
 
 networks:
-  my_network:  # Define a custom network name
+  my_network:
     driver: bridge
 
-services:
 
+services:
   mongo:
     image: mongo:latest
     container_name: mongo
@@ -14,7 +14,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
     ports:
-      - "27017:27017"  # Expose MongoDB for local connections
+      - "27017:27017"
     networks:
       - my_network
 
@@ -31,10 +31,12 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     networks:
       - my_network
-
+#
   service_metrics:
     build: .
     container_name: aiohttp-service-metric
+    depends_on:
+      - mongo
     ports:
       - "8080:8080"
     networks:
