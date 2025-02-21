@@ -25,7 +25,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - grafana-storage6:/var/lib/grafana
+      - grafana-storage:/var/lib/grafana
       - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
       - ./grafana/provisioning/dashboards/dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml
       - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
@@ -49,4 +49,4 @@ services:
       - my_network
 
 volumes:
-  grafana-storage6: {}
+  grafana-storage: {}
