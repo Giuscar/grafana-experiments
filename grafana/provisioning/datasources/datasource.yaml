@@ -1,0 +1,11 @@
+apiVersion: 1
+
+datasources:
+  - name: Infinity
+    type: yesoreyeram-infinity-datasource
+    access: proxy
+    uid: debs4bew5ni0wa  # Keep the UID the same as used in the dashboard JSON
+    url: "http://aiohttp-service-metric:8080"
+    jsonData:
+      tlsSkipVerify: true
+      global_queries: []

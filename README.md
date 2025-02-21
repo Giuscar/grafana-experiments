@@ -32,13 +32,23 @@ Ensure you have the following installed:
    docker-compose start --build
     ```
     This command will build and start the services defined in the docker-compose.yaml
-3. **Access Grafana**: Once the containers are up and running, navigate to http://127.0.0.1:3000 in your browser to access the Grafana dashboard. 
 
-## Python Web Server
-The **web_server.py** script is designed to expose API that will be used by Grafana to retrieve data and show them on a dashboard. To run the script: 
-```bash
-python3 web_server.py
-```
 
-## Custom Metrics
-The **metrics.json** is an example of custom metrics that can be used to show graphs on Grafana.
+3. **Access Grafana**
+   
+   Once the containers are running, navigate to the following URL in your browser to access the Grafana dashboard:
+   http://127.0.0.1:3000
+   The default Grafana credentials are:
+   
+   **Username**: admin 
+
+   **Password**: admin (You’ll be prompted to change this upon first login)
+
+
+4. **Explore the dashboards**
+- Example Grafana Dashboard: below is an example of a Grafana dashboard visualized using the Infinity and Business Chart plugins.
+
+![Example of grafana dashboard using infinity and business chart plugin](./images/dashboard.png)
+- Dynamic Filter Application: the dashboard supports dynamic adaptation based on the hw_type_keys filter. This allows you to adjust the view of the metrics based on the selected filter.
+
+![Filters applied on the graph](./images/filter.png)

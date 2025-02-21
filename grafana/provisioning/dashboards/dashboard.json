@@ -1,0 +1,342 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 1,
+  "links": [],
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "panels": [],
+      "title": "CPU Consumptions",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "debs4bew5ni0wa"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 16,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 1,
+      "options": {
+        "baidu": {
+          "callback": "bmapReady",
+          "key": ""
+        },
+        "editor": {
+          "format": "auto"
+        },
+        "editorMode": "visual",
+        "gaode": {
+          "key": "",
+          "plugin": "AMap.Scale,AMap.ToolBar"
+        },
+        "getOption": "const series = context.panel.data.series.map((s) => {\n  const sData = s.fields.find((f) => f.type === 'number').values.buffer || s.fields.find((f) => f.type === 'number').values;\n  const sTime = s.fields.find((f) => f.type === 'time').values.buffer || s.fields.find((f) => f.type === 'time').values;\n  \n  return {\n    name: s.refId,\n    type: 'line',\n    showSymbol: false,\n    areaStyle: {\n      opacity: 0.1,\n    },\n    lineStyle: {\n      width: 1,\n    },\n    data: sData.map((d, i) => [sTime[i], d.toFixed(2)]),\n  };\n});\n\n/**\n * Enable Data Zoom by default\n */\nsetTimeout(() => context.panel.chart.dispatchAction({\n  type: 'takeGlobalCursor',\n  key: 'dataZoomSelect',\n  dataZoomSelectActive: true,\n}), 500);\n\n/**\n * Update Time Range on Zoom\n */\ncontext.panel.chart.on('datazoom', function (params) {\n  const startValue = params.batch[0]?.startValue;\n  const endValue = params.batch[0]?.endValue;\n  locationService.partial({ from: startValue, to: endValue });\n});\n\nreturn {\n  backgroundColor: 'transparent',\n  tooltip: {\n    trigger: 'axis',\n  },\n  legend: {\n    left: '0',\n    bottom: '0',\n    data: context.panel.data.series.map((s) => s.refId),\n    textStyle: {\n      color: 'rgba(128, 128, 128, .9)',\n    },\n  },\n  toolbox: {\n    feature: {\n      dataZoom: {\n        yAxisIndex: 'none',\n        icon: {\n          zoom: 'path://',\n          back: 'path://',\n        },\n      },\n      saveAsImage: {},\n    }\n  },\n  xAxis: {\n    type: 'time',\n  },\n  yAxis: {\n    type: 'value',\n    min: 'dataMin',\n  },\n  grid: {\n    left: '2%',\n    right: '2%',\n    top: '2%',\n    bottom: 24,\n    containLabel: true,\n  },\n  series,\n};",
+        "google": {
+          "callback": "gmapReady",
+          "key": ""
+        },
+        "map": "none",
+        "renderer": "canvas",
+        "themeEditor": {
+          "config": "{}",
+          "name": "default"
+        },
+        "visualEditor": {
+          "code": "return {\n  dataset: context.editor.dataset,\n  series: context.editor.series.map(series => ({\n    ...series,\n    symbolSize: 10,\n    smooth: true\n  })),\n  xAxis: {\n    type: 'category',\n    axisLabel: {\n      rotate: 50, // Rotate the labels 50 degrees to avoid overlapping\n      margin: 30,\n      interval: 0, // Show every 20th label to reduce clutter (adjust based on your needs)\n      color: 'black'\n    },\n    boundaryGap: false, // Ensure no extra padding on the x-axis\n    scale: true,        // Distribute data evenly along the x-axis\n    splitNumber: 6,    // Split into 10 parts to ensure better spacing of labels\n  },\n  yAxis: {\n    type: 'value',\n    min: 'dataMin',  // Ensures the Y-axis starts from the minimum data value\n    axisLabel: {\n      color: 'black'\n    }\n  },\n  grid: {\n    left: '10%',   // Adjust the left margin (make it smaller to increase canvas size)\n    right: '10%',  // Adjust the right margin\n    top: '5%',     // Adjust the top margin\n    bottom: '40%', // Adjust bottom margin for better label positioning\n  },\n  // Optional: If you want zooming, adjust the dataZoom accordingly\n  dataZoom: [\n    {\n      type: 'slider',\n      xAxisIndex: [0],\n      start: 0, // Start at 0% (initial zoom start)\n      end: 50, // Show 50% of the data initially\n      minValueSpan: 1, // Ensure at least one value is always visible\n      maxValueSpan: 30, // Limit maximum zoom range for better label readability\n      handleSize: '100%', // Large handle for easier user interaction\n      handleStyle: {\n        color: '#2f4554'\n      }\n    },\n    {\n      type: 'inside',\n      xAxisIndex: [0],\n      start: 0,\n      end: 100\n    },\n    {\n      type: 'inside', // Allow zooming on the y-axis\n      yAxisIndex: [0], // Enable zooming on the y-axis\n      start: 0,\n      end: 100\n    }\n  ],\n  backgroundColor: '#FFFFFF'\n  // Optional: Add the legend or customize other settings based on your needs\n};\n",
+          "dataset": [
+            {
+              "name": "CPU",
+              "source": "A"
+            },
+            {
+              "name": "Scenario",
+              "source": "A"
+            }
+          ],
+          "series": [
+            {
+              "encode": {
+                "x": [
+                  "A:Scenario"
+                ],
+                "y": [
+                  "A:CPU"
+                ]
+              },
+              "id": "1",
+              "name": "",
+              "type": "line",
+              "uid": "47638ca9-306e-4afa-8463-baeac5d8529c"
+            }
+          ]
+        }
+      },
+      "pluginVersion": "6.6.0",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "cpu_consumption",
+              "text": "CPU",
+              "type": "number"
+            },
+            {
+              "selector": "scenario",
+              "text": "Scenario",
+              "type": "string"
+            }
+          ],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "debs4bew5ni0wa"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "http://aiohttp-service-metric:8080/metrics/${query0}",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "CPU Consumption ${query0}",
+      "type": "volkovlabs-echarts-panel"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "debs4bew5ni0wa"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 17,
+        "w": 24,
+        "x": 0,
+        "y": 17
+      },
+      "id": 3,
+      "options": {
+        "baidu": {
+          "callback": "bmapReady",
+          "key": ""
+        },
+        "editor": {
+          "format": "auto"
+        },
+        "editorMode": "visual",
+        "gaode": {
+          "key": "",
+          "plugin": "AMap.Scale,AMap.ToolBar"
+        },
+        "getOption": "const series = context.panel.data.series.map((s) => {\n  const sData = s.fields.find((f) => f.type === 'number').values.buffer || s.fields.find((f) => f.type === 'number').values;\n  const sTime = s.fields.find((f) => f.type === 'time').values.buffer || s.fields.find((f) => f.type === 'time').values;\n  \n  return {\n    name: s.refId,\n    type: 'line',\n    showSymbol: false,\n    areaStyle: {\n      opacity: 0.1,\n    },\n    lineStyle: {\n      width: 1,\n    },\n    data: sData.map((d, i) => [sTime[i], d.toFixed(2)]),\n  };\n});\n\n/**\n * Enable Data Zoom by default\n */\nsetTimeout(() => context.panel.chart.dispatchAction({\n  type: 'takeGlobalCursor',\n  key: 'dataZoomSelect',\n  dataZoomSelectActive: true,\n}), 500);\n\n/**\n * Update Time Range on Zoom\n */\ncontext.panel.chart.on('datazoom', function (params) {\n  const startValue = params.batch[0]?.startValue;\n  const endValue = params.batch[0]?.endValue;\n  locationService.partial({ from: startValue, to: endValue });\n});\n\nreturn {\n  backgroundColor: 'transparent',\n  tooltip: {\n    trigger: 'axis',\n  },\n  legend: {\n    left: '0',\n    bottom: '0',\n    data: context.panel.data.series.map((s) => s.refId),\n    textStyle: {\n      color: 'rgba(128, 128, 128, .9)',\n    },\n  },\n  toolbox: {\n    feature: {\n      dataZoom: {\n        yAxisIndex: 'none',\n        icon: {\n          zoom: 'path://',\n          back: 'path://',\n        },\n      },\n      saveAsImage: {},\n    }\n  },\n  xAxis: {\n    type: 'time',\n  },\n  yAxis: {\n    type: 'value',\n    min: 'dataMin',\n  },\n  grid: {\n    left: '2%',\n    right: '2%',\n    top: '2%',\n    bottom: 24,\n    containLabel: true,\n  },\n  series,\n};",
+        "google": {
+          "callback": "gmapReady",
+          "key": ""
+        },
+        "map": "none",
+        "renderer": "canvas",
+        "themeEditor": {
+          "config": "{}",
+          "name": "default"
+        },
+        "visualEditor": {
+          "code": "return {\n  dataset: context.editor.dataset,\n  series: context.editor.series.map((series, index) => ({\n    ...series,\n    symbolSize: 10,\n    smooth: true,\n    itemStyle: {\n      color: index === 0 ? '#00008B' : index === 1 ? '#8B0000' : '#FF8C00' // Dark blue, dark red, dark orange\n    }\n  })),\n  xAxis: {\n    type: 'category',\n    axisLabel: {\n      rotate: 50,\n      margin: 30,\n      interval: 0,\n      color: 'black'\n    },\n    axisLine: {\n      lineStyle: {\n        color: 'black'\n      }\n    },\n    boundaryGap: false,\n    scale: true,\n    splitNumber: 6\n  },\n  yAxis: {\n    type: 'value',\n    min: 'dataMin',\n    axisLabel: {\n      color: 'black'\n    },\n    axisLine: {\n      lineStyle: {\n        color: 'black'\n      }\n    }\n  },\n  legend: {\n    left: 'center',\n    bottom: '10%',\n    textStyle: {\n      color: 'black'\n    }\n  },\n  grid: {\n    left: '10%',\n    right: '10%',\n    top: '5%',\n    bottom: '40%'\n  },\n  dataZoom: [\n    {\n      type: 'slider',\n      xAxisIndex: [0],\n      start: 0,\n      end: 50,\n      minValueSpan: 1,\n      maxValueSpan: 30,\n      handleSize: '100%',\n      handleStyle: {\n        color: '#2f4554'\n      }\n    },\n    {\n      type: 'inside',\n      xAxisIndex: [0],\n      start: 0,\n      end: 100\n    },\n    {\n      type: 'inside',\n      yAxisIndex: [0],\n      start: 0,\n      end: 100\n    }\n  ],\n  backgroundColor: '#FFFFFF'\n};\n",
+          "dataset": [
+            {
+              "name": "scenario",
+              "source": "A"
+            },
+            {
+              "name": "CPU Avg Consumption",
+              "source": "A"
+            },
+            {
+              "name": "CPU Consumption",
+              "source": "A"
+            },
+            {
+              "name": "Memory Consumption",
+              "source": "A"
+            }
+          ],
+          "series": [
+            {
+              "encode": {
+                "x": [
+                  "A:scenario"
+                ],
+                "y": [
+                  "A:CPU Avg Consumption"
+                ]
+              },
+              "id": "1",
+              "name": "CPU Avg Consumption",
+              "type": "line",
+              "uid": "46e701db-72b1-4b15-ae26-0b3f1fb80534"
+            },
+            {
+              "encode": {
+                "x": [
+                  "A:scenario"
+                ],
+                "y": [
+                  "A:CPU Consumption"
+                ]
+              },
+              "id": "2",
+              "name": "CPU Consumption",
+              "type": "line",
+              "uid": "2344a6af-b1d8-40b0-a193-d02da7730f29"
+            },
+            {
+              "encode": {
+                "x": [
+                  "A:scenario"
+                ],
+                "y": [
+                  "A:Memory Consumption"
+                ]
+              },
+              "id": "3",
+              "name": "Memory Consumption",
+              "type": "line",
+              "uid": "fc5aa7ff-1684-4bc1-b0b4-d7985db533c9"
+            }
+          ]
+        }
+      },
+      "pluginVersion": "6.6.0",
+      "targets": [
+        {
+          "columns": [
+            {
+              "selector": "scenario",
+              "text": "scenario",
+              "type": "string"
+            },
+            {
+              "selector": "cpu_avg_consumption",
+              "text": "CPU Avg Consumption",
+              "type": "number"
+            },
+            {
+              "selector": "cpu_consumption",
+              "text": "CPU Consumption",
+              "type": "number"
+            },
+            {
+              "selector": "memory_consumption",
+              "text": "Memory Consumption",
+              "type": "number"
+            }
+          ],
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "http://aiohttp-service-metric:8080/metrics/${query0}",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Total HW ${query0} Consumption",
+      "type": "volkovlabs-echarts-panel"
+    }
+  ],
+  "preload": false,
+  "refresh": "",
+  "schemaVersion": 40,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "text": "hw_type_2",
+          "value": "hw_type_2"
+        },
+        "definition": "",
+        "label": "hw_type_keys",
+        "name": "query0",
+        "options": [],
+        "query": {
+          "infinityQuery": {
+            "columns": [],
+            "filters": [],
+            "format": "table",
+            "refId": "variable",
+            "root_selector": "$.hw_type_keys[*]",
+            "source": "url",
+            "type": "json",
+            "url": "http://aiohttp-service-metric:8080/metrics/hw_type",
+            "url_options": {
+              "data": "",
+              "method": "GET"
+            }
+          },
+          "query": "",
+          "queryType": "infinity"
+        },
+        "refresh": 1,
+        "regex": "",
+        "sort": 1,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "2025-02-02T01:46:22.730Z",
+    "to": "2025-02-02T13:46:22.730Z"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "New dashboard",
+  "uid": "febs4rucum800d",
+  "version": 1,
+  "weekStart": ""
+}

@@ -6,7 +6,7 @@ networks:
 
 
 services:
-  mongo:
+  mongodb:
     image: mongo:latest
     container_name: mongo
     restart: always
@@ -25,10 +25,16 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - grafana-storage:/var/lib/grafana
+      - grafana-storage6:/var/lib/grafana
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./grafana/provisioning/dashboards/dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+      - GF_INSTALL_PLUGINS=yesoreyeram-infinity-datasource,volkovlabs-echarts-panel
     networks:
       - my_network
 #
@@ -36,11 +42,11 @@ services:
     build: .
     container_name: aiohttp-service-metric
     depends_on:
-      - mongo
+      - mongodb
     ports:
       - "8080:8080"
     networks:
       - my_network
 
 volumes:
-  grafana-storage: {}
+  grafana-storage6: {}
